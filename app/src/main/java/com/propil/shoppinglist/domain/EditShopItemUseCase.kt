@@ -2,7 +2,7 @@ package com.propil.shoppinglist.domain
 
 class EditShopItemUseCase {
 
-    fun editShopItem(): ShopItem {
+    fun editShopItem(shopItem: ShopItem) {
         TODO()
     }
 }
