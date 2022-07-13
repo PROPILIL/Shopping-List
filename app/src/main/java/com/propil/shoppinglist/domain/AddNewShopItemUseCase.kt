@@ -1,8 +1,8 @@
 package com.propil.shoppinglist.domain
 
-class AddNewShopItemUseCase {
+class AddNewShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
     fun addShopItem(shopItem: ShopItem){
-        TODO()
+        shopListRepository.addShopItem(shopItem)
     }
 }
