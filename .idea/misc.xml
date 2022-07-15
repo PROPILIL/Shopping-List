@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/vladr/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_main.xml" value="0.35507246376811596" />
+        <entry key="..\:/Users/vladr/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/item_shop_disabled.xml" value="0.35507246376811596" />
+        <entry key="..\:/Users/vladr/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/item_shop_enabled.xml" value="0.35507246376811596" />
       </map>
     </option>
   </component>
