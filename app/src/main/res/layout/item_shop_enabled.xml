@@ -9,7 +9,7 @@
     app:cardUseCompatPadding="true">
 
     <TextView
-        android:id="@+id/card_title_enabled"
+        android:id="@+id/card_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Something need"
@@ -20,7 +20,7 @@
         android:textAllCaps="true"/>
 
     <TextView
-        android:id="@+id/card_count_enabled"
+        android:id="@+id/card_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1"
