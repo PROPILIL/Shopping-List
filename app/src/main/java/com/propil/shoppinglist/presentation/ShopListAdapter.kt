@@ -9,13 +9,23 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.propil.shoppinglist.R
 import com.propil.shoppinglist.domain.ShopItem
+import java.lang.RuntimeException
 
 class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
+
+    var count = 0
 
     var shopList = listOf<ShopItem>()
     //как создать вью
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_shop_enabled, parent, false)
+        Log.d("ShopListAdapter", "onCreateViewHolder created ${++count}")
+
+        val layout = when (viewType) {
+            0 -> R.layout.item_shop_disabled
+            1 -> R.layout.item_shop_enabled
+            else -> throw RuntimeException("Unknown view type: $viewType")
+        }
+        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
         return ShopItemViewHolder(view)
     }
 
@@ -28,26 +38,35 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
             Log.d("RECYCLERVIEW", "ShopItem with id $shopItem.id is longClicked")
             true
         }
-        if (shopItem.enabled) {
-            holder.cardTitle.setTextColor(ContextCompat.getColor(holder.view.context,
-                android.R.color.holo_red_light))
-        }
     }
     // количество вью
     override fun getItemCount(): Int {
         return shopList.size
     }
 
-    override fun onViewRecycled(holder: ShopItemViewHolder) {
-        super.onViewRecycled(holder)
-        holder.cardTitle.setTextColor(ContextCompat.getColor(holder.view.context,
-            android.R.color.white))
+     override fun getItemViewType(position: Int): Int {
+         val shopItem = shopList[position]
+
+         return if (shopItem.enabled){
+             VIEW_TYPE_ENABLED
+         }
+            else {
+             VIEW_TYPE_DISABLED
+            }
     }
 
     // класс для хранения данных о вью
     class ShopItemViewHolder(val view: View): RecyclerView.ViewHolder(view){
         val cardTitle: TextView = view.findViewById(R.id.card_title)
         val cardCount: TextView = view.findViewById(R.id.card_count)
+    }
+
+    companion object {
+
+        const val VIEW_TYPE_DISABLED = 0
+        const val VIEW_TYPE_ENABLED = 1
+        const val MAX_VIEW_HOLDER_POOL = 20
+
     }
 
 }
