@@ -1,11 +1,15 @@
 package com.propil.shoppinglist.presentation
 
+import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.propil.shoppinglist.R
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,5 +42,39 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_VIEW_HOLDER_POOL
             )
         }
+        setupLongClickListener()
+        setupClickListener()
+        setupSwipeListener(recyclerViewShopList)
+    }
+
+    private fun setupLongClickListener() {
+        shopListAdapter.onShopItemLongClickListener = {
+            viewModel.switchEnableState(it)
+        }
+    }
+
+    private fun setupClickListener() {
+        shopListAdapter.onShopItemClickListener = {
+            Log.d("TAG", "Item with id ${it.id} clicked")
+        }
+    }
+
+    private fun setupSwipeListener(recyclerView: RecyclerView) {
+        val deleteSwipeCallback = object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = shopListAdapter.shopList[viewHolder.adapterPosition]
+                viewModel.deleteShopItem(item)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(deleteSwipeCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 }
